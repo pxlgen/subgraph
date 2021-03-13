@@ -1,0 +1,6 @@
+type Cell @entity {
+  id: ID!
+  owner: Bytes!
+  index: Int!
+  ipfsHash: String!
+}

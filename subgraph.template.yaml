@@ -1,0 +1,26 @@
+specVersion: 0.0.2
+description: Muralis
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Muralis
+    network: "{{network}}"
+    source:
+      address: "{{address}}"
+      abi: Muralis
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Cell
+      abis:
+        - name: Muralis
+          file: ./abis/Muralis.json
+      eventHandlers:
+        - event: CellMinted(indexed address,indexed uint256,uint256,string)
+          handler: handleCellMinted
+        - event: URI(string,indexed uint256)
+          handler: handleUpdatedURI
+      file: ./src/mapping.ts
