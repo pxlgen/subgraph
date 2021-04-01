@@ -1,6 +1,27 @@
-type Cell @entity {
+enum TokenType {
+  Cell
+  Print
+}
+
+type Owner @entity {
   id: ID!
-  owner: Bytes!
+  totalOwned: Int!
+  tokens: [Token!] @derivedFrom(field: "owner")
+}
+
+type Token @entity {
+  id: ID!
+  owner: Owner!
   index: Int!
   ipfsHash: String!
+  createdAt: BigInt!
+  type: TokenType!
+}
+
+type TokenTransfer @entity {
+  id: ID!
+  token: Token!
+  from: Bytes!
+  to: Bytes!
+  createdAt: BigInt!
 }
