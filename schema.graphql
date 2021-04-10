@@ -11,11 +11,11 @@ type Owner @entity {
 
 type Token @entity {
   id: ID!
-  owner: Owner!
   index: Int!
-  ipfsHash: String!
   createdAt: BigInt!
   type: TokenType!
+  owner: Owner!
+  ipfsHash: String!
 }
 
 type TokenTransfer @entity {

@@ -1,6 +1,6 @@
 import { CellMinted, URI, TransferSingle } from "../generated/PxlGen/PxlGen";
 import { Token, Owner, TokenTransfer } from "../generated/schema";
-import { log, Address, BigInt } from "@graphprotocol/graph-ts";
+import { log } from "@graphprotocol/graph-ts";
 
 const CELL_TYPE: string = "Cell";
 const PRINT_TYPE: string = "Print";
@@ -35,7 +35,7 @@ export function handleCellMinted(event: CellMinted): void {
 }
 
 export function handleUpdatedURI(event: URI): void {
-  log.info("URI ID: {}", [event.params.id.toHex()]);
+  log.info("URI ipfsHash: {}", [event.params.value]);
   let id = event.params.id.toHex();
   let cell = Token.load(id);
   cell.ipfsHash = event.params.value;
@@ -43,7 +43,9 @@ export function handleUpdatedURI(event: URI): void {
 }
 
 export function handleTransferSingle(event: TransferSingle): void {
-  if (event.params.from.toHexString() !== ZERO_ADDR || event.params.to.toHexString() !== ZERO_ADDR) {
+  if (event.params.from.toHexString() != ZERO_ADDR && event.params.to.toHexString() != ZERO_ADDR) {
+    log.info("handleTransferSingle to not zero: {}", [event.params.to.toHexString()]);
+
     let tokenId = event.params.id.toHex();
     let token = Token.load(tokenId);
     if (token !== null) {
