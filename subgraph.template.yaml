@@ -16,13 +16,13 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Cell
+        - Plot
       abis:
         - name: PxlGen
           file: ./abis/PxlGen.json
       eventHandlers:
-        - event: CellMinted(indexed address,uint256,indexed uint256,string)
-          handler: handleCellMinted
+        - event: PlotMinted(indexed address,uint256,indexed uint256,string)
+          handler: handlePlotMinted
         - event: URI(string,indexed uint256)
           handler: handleUpdatedURI
         - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)

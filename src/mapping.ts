@@ -1,8 +1,8 @@
-import { CellMinted, URI, TransferSingle } from "../generated/PxlGen/PxlGen";
+import { PlotMinted, URI, TransferSingle } from "../generated/PxlGen/PxlGen";
 import { Token, Owner, TokenTransfer } from "../generated/schema";
 import { log } from "@graphprotocol/graph-ts";
 
-const CELL_TYPE: string = "Cell";
+const PLOT_TYPE: string = "Plot";
 const PRINT_TYPE: string = "Print";
 const ZERO_ADDR: string = "0x0000000000000000000000000000000000000000";
 
@@ -15,31 +15,31 @@ export function getOwner(o: string): Owner {
   return owner as Owner;
 }
 
-export function handleCellMinted(event: CellMinted): void {
-  log.info("Cell ID: {}", [event.params.id.toHex()]);
-  log.info("Cell Index: {}", [event.params.index.toString()]);
+export function handlePlotMinted(event: PlotMinted): void {
+  log.info("Plot ID: {}", [event.params.id.toHex()]);
+  log.info("Plot Index: {}", [event.params.index.toString()]);
 
   let ownerID = event.params.to.toHex();
   let owner = getOwner(ownerID);
   owner.totalOwned = owner.totalOwned + 1;
 
-  let cell = new Token(event.params.id.toHex());
-  cell.owner = ownerID;
-  cell.index = event.params.index.toI32();
-  cell.ipfsHash = event.params.uri + "/" + event.params.index.toString() + ".json";
-  cell.createdAt = event.block.timestamp;
-  cell.type = CELL_TYPE;
+  let plot = new Token(event.params.id.toHex());
+  plot.owner = ownerID;
+  plot.index = event.params.index.toI32();
+  plot.ipfsHash = event.params.uri + "/" + event.params.index.toString() + ".json";
+  plot.createdAt = event.block.timestamp;
+  plot.type = PLOT_TYPE;
 
-  cell.save();
+  plot.save();
   owner.save();
 }
 
 export function handleUpdatedURI(event: URI): void {
   log.info("URI ipfsHash: {}", [event.params.value]);
   let id = event.params.id.toHex();
-  let cell = Token.load(id);
-  cell.ipfsHash = event.params.value;
-  cell.save();
+  let plot = Token.load(id);
+  plot.ipfsHash = event.params.value;
+  plot.save();
 }
 
 export function handleTransferSingle(event: TransferSingle): void {
