@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "scripts": {
     "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:ropsten": "mustache config/ropsten.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:rinkeby": "mustache config/rinkeby.json subgraph.template.yaml > subgraph.yaml",
     "prepare:local": "mustache config/local.json subgraph.template.yaml > subgraph.yaml",
     "build-contract": "solc contracts/Gravity.sol --abi -o abis --overwrite && solc contracts/Gravity.sol --bin -o bin --overwrite",
     "create": "graph create pxlgen/pxlgen-subgraph --node https://api.thegraph.com/deploy/",
     "create-local": "graph create pxlgen/pxlgen-subgraph --node http://127.0.0.1:8020",
-    "codegen": "graph codegen", 
+    "codegen": "graph codegen",
     "codegen:local": "yarn prepare:local & graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy pxlgen/pxlgen-subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy": "graph deploy pxlgen/pxlgen-subgraph --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy-local": "graph deploy pxlgen/pxlgen-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
     "deploy-local-full": "yarn create-local && yarn codegen:local && yarn deploy-local"
   },
